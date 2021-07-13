@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
-import StudentListResults from '../component/StudentListResults';
-import StudentListToolbar from '../component/StudentListToolbar';
+import StudentListResults from '../component/Student/StudentListResults';
+import StudentListToolbar from '../component/Student/StudentListToolbar';
 import Student from '../data/studentdb';
 
 const CustomerList = () => (

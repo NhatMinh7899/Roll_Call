@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import ClassToolBar from '../component/Class/ClassToolBar';
 import ClassCard from '../component/Class/ClassCard';
+import {Link} from 'react-router-dom';
 
 const manyClass = [
   {
@@ -48,8 +49,10 @@ const ClassList = () => (
                 key={Class.id}
                 lg={4}
                 md={6}
-                xs={12}>             
+                xs={12}>   
+                <Link to='/app/editclass'>          
                   <ClassCard Class={Class} />
+                </Link>
               </Grid>
             ))}
           </Grid>

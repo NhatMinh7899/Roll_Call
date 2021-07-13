@@ -2,6 +2,7 @@ import {Card, Box, Table, TableHead, TableRow, TableCell, TableBody, Checkbox, T
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import getInitials from '../../utils/getInitials';
 import { useState } from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const ListStudent = ({student, ...rest}) => {
@@ -25,16 +26,16 @@ const ListStudent = ({student, ...rest}) => {
                 <TableCell>
                   Grade
                 </TableCell>
+                <TableCell>
+                  Role
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {student.slice(0, limit).map((customer) => (
-                <TableRow
-                
-                >
+                <TableRow>
                   <TableCell padding="checkbox">
-                    <Checkbox
-                    />
+                    <Checkbox/>
                   </TableCell>
                   <TableCell>
                     <Box
@@ -64,6 +65,9 @@ const ListStudent = ({student, ...rest}) => {
                   </TableCell>
                   <TableCell>
                     {customer.role}
+                  </TableCell>
+                  <TableCell>
+                    <DeleteIcon />
                   </TableCell>
                 </TableRow>
               ))}

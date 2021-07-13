@@ -7,6 +7,8 @@ import {
   InputAdornment,
   SvgIcon
 } from '@material-ui/core';
+import {Link} from 'react-router-dom';
+
 import { Search as SearchIcon } from 'react-feather';
 
 const CustomerListToolbar = (props) => (
@@ -17,12 +19,14 @@ const CustomerListToolbar = (props) => (
         justifyContent: 'flex-end'
       }}
     >
+    <Link to='/app/additem'>
       <Button
         color="primary"
         variant="contained"
       >
         Add
       </Button>
+      </Link>
     </Box>
     <Box sx={{ mt: 3 }}>
       <Card>

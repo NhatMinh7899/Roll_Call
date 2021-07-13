@@ -14,7 +14,7 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
-import getInitials from '../utils/getInitials';
+import getInitials from '../../utils/getInitials';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { Link as RouterLink } from 'react-router-dom';
@@ -140,7 +140,7 @@ const TeacherListResults = ({ customers, ...rest }) => {
                     {customer.role}
                   </TableCell>
                   <TableCell>
-                    <RouterLink to="/app/additem">
+                    <RouterLink to="/app/edititem">
                     <EditIcon sx={{ mr: 2}}/>
                     </RouterLink>                  
                    <DeleteIcon />

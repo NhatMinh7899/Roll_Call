@@ -4,6 +4,8 @@ import Teacher from './pages/Teacher';
 import Dashboard from './pages/Dashboard';
 import DashboardLayout from './pages/DashboardLayout';
 import AddAccount from './pages/AddAccount';
+import EditAccount from './pages/EditAccount';
+import EditClass from './pages/EditClass';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -19,8 +21,10 @@ const routes = [
       { path: 'teacher', element: <Teacher /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'additem', element: <AddAccount />},
-      {path: 'class', element: <ClassControl/>},
-      {path: 'addclass', element: <AddClass />},
+      { path: 'class', element: <ClassControl/>},
+      { path: 'addclass', element: <AddClass />},
+      { path: 'edititem', element: <EditAccount />},
+      { path: 'editclass', element: <EditClass />},
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },

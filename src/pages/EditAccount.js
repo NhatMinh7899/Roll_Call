@@ -8,17 +8,17 @@ import DetailAccount from '../component/AccountControl/DetailAccount';
 import ImageAccount from '../component/AccountControl/ImageAccount';
 
 
-const NewAccount = {
-    firstName: '',
-    lastName: '',
-    phone: '',
-    state: '',
-    mssv: '',
-    avatar: '',
-    email: ''
+const EditAccount = {
+    firstName: 'Minh',
+    lastName: 'Bui',
+    phone: '84918957387',
+    state: 'male',
+    email: 'buinhatminh7899gmail.com',
+    mssv: 'N17DCCN091',
+    avatar: '/static/images/products/lalisa.jpg'
 }
 
-const addAccount = () => (
+const editAccount = () => (
   <>
     <Helmet>
       <title>Account | Material Kit</title>
@@ -41,7 +41,7 @@ const addAccount = () => (
             md={6}
             xs={12}
           >
-            <ImageAccount account={NewAccount} />
+            <ImageAccount account={EditAccount} />
           </Grid>
           <Grid
             item
@@ -49,7 +49,7 @@ const addAccount = () => (
             md={6}
             xs={12}
           >
-            <DetailAccount account={NewAccount}/>
+            <DetailAccount account={EditAccount}/>
           </Grid>
         </Grid>
       </Container>
@@ -57,4 +57,4 @@ const addAccount = () => (
   </>
 );
 
-export default addAccount;
+export default editAccount;
