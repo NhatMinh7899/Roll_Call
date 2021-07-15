@@ -13,14 +13,14 @@ import EditIcon from '@material-ui/icons/Edit';
 
 
 
-const ClassCard = ({ Class, ...rest }) => (
+const ClassCard = ({ Class }) => (
   <Card
     sx={{
       display: 'flex',
       flexDirection: 'column',
       height: '100%'
     }}
-    {...rest}
+
   >
     <CardContent>
       <Box
@@ -32,7 +32,7 @@ const ClassCard = ({ Class, ...rest }) => (
       >
         <Avatar
           alt="Product"
-          src={Class.media}
+          src={Class.id}
           variant="square"
         />
       </Box>
@@ -42,7 +42,7 @@ const ClassCard = ({ Class, ...rest }) => (
         gutterBottom
         variant="h4"
       >
-        {Class.title}
+        {Class.name}
       </Typography>
     </CardContent>
     <Box sx={{ flexGrow: 1 }} />
@@ -76,7 +76,7 @@ const ClassCard = ({ Class, ...rest }) => (
             sx={{ pl: 1 }}
             variant="body2"
           >
-            {Class.totalClass}
+            {Class.students.length}
             {' '}
             Student
           </Typography>

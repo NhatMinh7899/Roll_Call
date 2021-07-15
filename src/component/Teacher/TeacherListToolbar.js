@@ -8,6 +8,7 @@ import {
     SvgIcon
   } from '@material-ui/core';
   import { Search as SearchIcon } from 'react-feather';
+  import {Link} from 'react-router-dom';
   
   const CustomerListToolbar = (props) => (
     <Box {...props}>
@@ -17,12 +18,14 @@ import {
           justifyContent: 'flex-end'
         }}
       >
+        <Link to={'/app/additem'}>
         <Button sx={{ mx: 2 }}
           color="primary"
           variant="contained"
         >
           Add
         </Button>
+        </Link>
         <Button
           color="primary"
           variant="contained"

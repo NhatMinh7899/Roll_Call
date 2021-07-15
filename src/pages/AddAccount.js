@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet';
 import {
   Box,
   Container,
@@ -6,6 +5,7 @@ import {
 } from '@material-ui/core';
 import DetailAccount from '../component/AccountControl/DetailAccount';
 import ImageAccount from '../component/AccountControl/ImageAccount';
+import AddNewAccount from '../component/AccountControl/AddNewAccount';
 
 
 const NewAccount = {
@@ -18,11 +18,9 @@ const NewAccount = {
     email: ''
 }
 
-const addAccount = () => (
-  <>
-    <Helmet>
-      <title>Account | Material Kit</title>
-    </Helmet>
+const addAccount = () => {
+  return (
+    <>
     <Box
       sx={{
         backgroundColor: 'background.default',
@@ -35,26 +33,27 @@ const addAccount = () => (
           container
           spacing={3}
         >
-          <Grid
+          {/* <Grid
             item
             lg={4}
             md={6}
             xs={12}
           >
             <ImageAccount account={NewAccount} />
-          </Grid>
+          </Grid> */}
           <Grid
             item
-            lg={8}
+            lg={10}
             md={6}
             xs={12}
           >
-            <DetailAccount account={NewAccount}/>
+           <AddNewAccount />
           </Grid>
         </Grid>
       </Container>
     </Box>
   </>
-);
+  );
+};
 
 export default addAccount;

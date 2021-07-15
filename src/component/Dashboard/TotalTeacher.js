@@ -31,7 +31,7 @@ import {
               color="textPrimary"
               variant="h3"
             >
-              50
+              {props.totalTC}
             </Typography>
           </Grid>
           <Grid item>

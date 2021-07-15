@@ -2,22 +2,20 @@ import moment from 'moment';
 import {
   Avatar,
   Box,
-  Button,
   Card,
-  CardActions,
   CardContent,
   Divider,
   Typography
 } from '@material-ui/core';
 
-const user = {
-  avatar: '/static/images/products/lalisa.jpg',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith'
-};
+// const user = {
+//   avatar: '/static/images/products/lalisa.jpg',
+//   jobTitle: 'Senior Developer',
+//   name: 'Katarina Smith'
+// };
 
-const AccountProfile = ({account, ...rest}) => (
-  <Card {...rest}>
+const AccountProfile = ({account}) => (
+  <Card>
     <CardContent>
       <Box
         sx={{
@@ -27,7 +25,7 @@ const AccountProfile = ({account, ...rest}) => (
         }}
       >
         <Avatar
-          src={account.avatar}
+          src={account.avtUrl}
           sx={{
             height: 100,
             width: 100
@@ -38,7 +36,7 @@ const AccountProfile = ({account, ...rest}) => (
           gutterBottom
           variant="h3"
         >
-          {account.firstName}
+          {account.name}
         </Typography>
         <Typography
           color="textSecondary"
@@ -49,7 +47,7 @@ const AccountProfile = ({account, ...rest}) => (
       </Box>
     </CardContent>
     <Divider />
-    <CardActions>
+    {/* <CardActions>
       <Button
         color="primary"
         fullWidth
@@ -57,7 +55,7 @@ const AccountProfile = ({account, ...rest}) => (
       >
         Upload picture
       </Button>
-    </CardActions>
+    </CardActions> */}
   </Card>
 );
 

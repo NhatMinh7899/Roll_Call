@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet';
 import {
   Box,
   Container,
@@ -8,6 +7,8 @@ import {
 import ClassToolBar from '../component/Class/ClassToolBar';
 import ClassCard from '../component/Class/ClassCard';
 import {Link} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { getJson } from '../utils/config';
 
 const manyClass = [
   {
@@ -24,11 +25,25 @@ const manyClass = [
   }
 ]; 
 
-const ClassList = () => (
-  <>
-    <Helmet>
-      <title>Class | Material Kit</title>
-    </Helmet>
+const ClassList = () => {
+  const [classes, setClasses] = useState([]);
+  useEffect(() => {
+    //console.log(authenable());
+    getJson('/classes')
+      .then(res => {
+        //console.log(res.data);
+          setClasses(res.data)
+          // setIsLoading(false)
+
+          //console.log(classes)        
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }, [])
+  
+  return (
+    <>
     <Box
       sx={{
         backgroundColor: 'background.default',
@@ -43,14 +58,14 @@ const ClassList = () => (
             container
             spacing={3}
           >
-            {manyClass.map((Class) => (
+            {classes.map((Class) => (
               <Grid 
                 item
                 key={Class.id}
                 lg={4}
                 md={6}
                 xs={12}>   
-                <Link to='/app/editclass'>          
+                <Link to={`/app/editclass/${Class.id}`}>          
                   <ClassCard Class={Class} />
                 </Link>
               </Grid>
@@ -73,6 +88,7 @@ const ClassList = () => (
       </Container>
     </Box>
   </>
-);
+  )
+};
 
 export default ClassList;

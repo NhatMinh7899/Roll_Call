@@ -118,7 +118,7 @@ const TeacherListResults = ({ customers, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={customer.img}
+                        src={customer.avtUrl}
                         sx={{ mr: 2 }}
                       >
                         {getInitials(customer.name)}
@@ -140,7 +140,7 @@ const TeacherListResults = ({ customers, ...rest }) => {
                     {customer.role}
                   </TableCell>
                   <TableCell>
-                    <RouterLink to="/app/edititem">
+                    <RouterLink to={`/app/edititem/${customer.id}`}>
                     <EditIcon sx={{ mr: 2}}/>
                     </RouterLink>                  
                    <DeleteIcon />

@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import ClassControl from './pages/ClassControl';
 import AddClass from './pages/AddClass';
+import RollCall from './pages/RollCall';
 
 const routes = [
   {
@@ -23,25 +24,29 @@ const routes = [
       { path: 'additem', element: <AddAccount />},
       { path: 'class', element: <ClassControl/>},
       { path: 'addclass', element: <AddClass />},
-      { path: 'edititem', element: <EditAccount />},
-      { path: 'editclass', element: <EditClass />},
-      { path: '*', element: <Navigate to="/404" /> }
+      { path: 'edititem/:id', element: <EditAccount />},
+      { path: 'editclass/:classId', element: <RollCall />},
+      //{ path: 'account', element: <EditClass />},
+      { path: '*', element: <Navigate to="/errorPage" /> }
     ]
   },
   {
     path: '/',
     element: <Home />,
     children: [
-      { path: '404', element: <NotFound /> },
-      { path: '*', element: <Navigate to="/404" /> }
+      { path: '*', element: <Navigate to="/errorPage" /> }
     ]
   },
   {
     path: '/login',
     element: <Login />,
     children: [
-      {path: '*', element: <Navigate to="/404" />}
+      {path: '*', element: <Navigate to="/errorPage" />}
     ]
+  },
+  {
+    path: '/errorPage',
+    element: <NotFound />
   }
 ];
 

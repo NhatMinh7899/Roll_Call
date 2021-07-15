@@ -4,6 +4,7 @@ import { ThemeProvider } from '@material-ui/core';
 import GlobalStyles from './component/GlobalStyles';
 import theme from './theme';
 import routes from './routes';
+import {GetUser} from './utils/config';
 
 const App = () => {
   const routing = useRoutes(routes);
@@ -13,9 +14,9 @@ const App = () => {
       <GlobalStyles />
      
         {routing}
-      
     </ThemeProvider>
-  );
+    // <GetUser></GetUser>
+  )
 };
 
 export default App;

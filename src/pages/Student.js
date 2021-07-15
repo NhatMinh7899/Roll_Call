@@ -1,14 +1,33 @@
-import { Helmet } from 'react-helmet';
+
 import { Box, Container } from '@material-ui/core';
 import StudentListResults from '../component/Student/StudentListResults';
 import StudentListToolbar from '../component/Student/StudentListToolbar';
 import Student from '../data/studentdb';
+import { getJson } from '../utils/config';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
-const CustomerList = () => (
+function StudentList() { 
+  
+  const [Users, setUsers] = useState([]);
+  useEffect(() => {
+    //console.log(authenable());
+    getJson('/students')
+      .then(res => {
+
+          setUsers(res.data)
+          // setIsLoading(false)
+            console.log(Users);
+        
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }, [])
+  
+  return(  
   <>
-    <Helmet>
-      <title>Student</title>
-    </Helmet>
     <Box
       sx={{
         backgroundColor: 'background.default',
@@ -19,11 +38,13 @@ const CustomerList = () => (
       <Container maxWidth={false}>
         <StudentListToolbar />
         <Box sx={{ pt: 3 }}>
-          <StudentListResults student={Student} />
+          
+          <StudentListResults student={Users} />
         </Box>
       </Container>
     </Box>
   </>
-);
+)};
 
-export default CustomerList;
+
+export default StudentList;

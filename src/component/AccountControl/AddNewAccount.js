@@ -10,24 +10,19 @@ import {
   TextField
 } from '@material-ui/core';
 
-// const states = [
-//   {
-//     value: 'male',
-//     label: 'Male'
-//   },
-//   {
-//     value: 'female',
-//     label: 'Female'
-//   },
-// ];
+const role = [
+  {
+    value: 'student',
+    label: 'Student'
+  },
+  {
+    value: 'teacher',
+    label: 'Teacher'
+  },
+];
 
-const AccountProfileDetails = (props) => {
+const AddNewAccount = () => {
   const [values, setValues] = useState({});
-  useEffect(() => {
-    const {account} = props;
-    setValues(account);
-    console.log(props);
-  }, [])
   //console.log(values);
   //console.log(account);
   const handleChange = (event) => {
@@ -40,7 +35,7 @@ const AccountProfileDetails = (props) => {
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    //console.log(rest)
+    console.log(values)
   };
 
   return (
@@ -48,12 +43,9 @@ const AccountProfileDetails = (props) => {
       autoComplete="off"
       noValidate
       onSubmit={handleSubmit}
-
     >
-
       <Card>
         <CardHeader
-          subheader="Thông tin có thể được chỉnh sửa"
           title="Thông tin chi tiết" 
         />
         <Divider />
@@ -70,12 +62,65 @@ const AccountProfileDetails = (props) => {
               <TextField
                 fullWidth
                 helperText="Họ và Tên"
+                //label="Họ Tên"
                 name="firstName"
                 onChange={handleChange}
                 required
                 value={values.name}
                 variant="outlined"
               />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                helperText="Mã Sinh Viên"
+                name="id"
+                onChange={handleChange}
+                required
+                value={values.id}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                helperText="Địa chỉ Email"
+                name="email"
+                onChange={handleChange}
+                required
+                value={values.email}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                helperText="Chức vị"
+                name="role"
+                select
+                SelectProps={{ native: true }}
+                onChange={handleChange}
+                value={values.role}
+                variant="outlined"
+              >
+                   {role.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
             </Grid>
             <Grid
               item
@@ -99,29 +144,14 @@ const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                helperText="Địa chỉ Email"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
-                variant="outlined"
-              />
-            </Grid>
-            {/* <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                helperText="Hình ảnh"
+                helperText="Mã Avatar"
                 name="avtUrl"
                 onChange={handleChange}
-                type="number"
+                required
                 value={values.avtUrl}
                 variant="outlined"
               />
-            </Grid> */}
+            </Grid>
           </Grid>
         </CardContent>
         <Divider />
@@ -137,7 +167,7 @@ const AccountProfileDetails = (props) => {
             variant="contained"
             type='submit'
           >
-            Save details
+            Lưu
           </Button>
         </Box>
       </Card>
@@ -145,4 +175,4 @@ const AccountProfileDetails = (props) => {
   );
 };
 
-export default AccountProfileDetails;
+export default AddNewAccount;

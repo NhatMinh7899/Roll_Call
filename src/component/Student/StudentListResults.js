@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
   Box,
+  Button,
   Card,
   Checkbox,
   Table,
@@ -18,7 +18,7 @@ import {
 import getInitials from '../../utils/getInitials';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { Link as RouterLink} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 const CustomerListResults = ({ student, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -65,7 +65,13 @@ const CustomerListResults = ({ student, ...rest }) => {
     setPage(newPage);
   };
 
+  const handleDelete = () => {
+    
+  }
+
+  //console.log(student);
   return (
+    
     <Card {...rest}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
@@ -119,7 +125,7 @@ const CustomerListResults = ({ student, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={customer.img}
+                        src={customer.avtUrl}
                         sx={{ mr: 2 }}
                       >
                         {getInitials(customer.name)}
@@ -141,10 +147,13 @@ const CustomerListResults = ({ student, ...rest }) => {
                     {customer.role}
                   </TableCell>
                   <TableCell>
-                  <RouterLink to="/app/edititem">
+                  <Link to={`/app/edititem/${customer.id}`}>
                     <EditIcon sx={{ mr: 2}}/>
-                    </RouterLink>                  
-                   <DeleteIcon />
+                    </Link>
+                    <Button onClick={handleDelete}>
+                        <DeleteIcon />
+                    </Button>                  
+                   
                   </TableCell>
                 </TableRow>
               ))}

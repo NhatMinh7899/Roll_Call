@@ -33,7 +33,7 @@ import {
               color="textPrimary"
               variant="h3"
             >
-              10
+              {props.totalCl}
             </Typography>
           </Grid>
           <Grid item>

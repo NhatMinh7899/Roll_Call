@@ -9,7 +9,11 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Image from '../images/ptithcm.jpg' 
+import Image from '../images/ptithcm.jpg';
+import {Host} from '../utils/config';
+import axios from 'axios';
+import { setUserSession } from '../utils/common';
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,22 +53,28 @@ function Login(props) {
   // const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
  
   // handle button click of login form
   const handleLogin = () => {
-    // setError(null);
-    // setLoading(true);
-    // axios.post('https://be-checkin.herokuapp.com/api/user/login', { id: username.value, password: password.value })
-    // .then(response => {
-    //   setLoading(false);
-    //   setUserSession(response.data)
-    //   props.history.push('/dashboard');
-    // }).catch(() => {
-    //   setLoading(false);
-    //   if (error.response.status === 401) setError(error.response.data.message);
-    //   else setError("Something went wrong. Please try again later.");
-    // });
-    // //props.history.push('/dashboard');
+    setError(null);
+    setLoading(true);
+    axios.post(`${Host}/users/login`, { id: username.value, password: password.value })
+    .then(response => {
+      // console.log(response.data.data[0]);
+      // console.log(response.data.data[0].token);
+      setLoading(false);
+      let data = response.data.data[0];
+      setUserSession(response.data.data[0].token, response.data.data[0] );
+      navigate('/app/dashboard', {state: {data}});
+    }).catch((error) => {
+      setLoading(false);
+      if (error.response.status === 404) setError(error.response.data.message);
+      else setError("Something went wrong. Please try again later.");
+      navigate('/login')
+      //console.log(error);
+    });
+    //props.history.push('/dashboard');
     
   }
   const classes = useStyles();

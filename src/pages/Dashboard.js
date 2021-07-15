@@ -8,13 +8,29 @@ import ChartRC from '../component/Dashboard/ChartRC';
 import TotalClass from '../component/Dashboard/TotalClass'
 import TotalStudent from '../component/Dashboard/TotalStudent'
 import TotalTeacher from '../component/Dashboard/TotalTeacher'
+//import { getUser, removeUserSession } from '../utils/common'
+import { useState, useEffect } from 'react';
+import { getUser, authenable, getJson } from '../utils/config';
 
 
-const Dashboard = () => (
+function Dashboard() {
+  const [Total, setTotal] = useState({});
+  useEffect(() => {
+    //console.log(authenable());
+    getJson('/dashboard')
+      .then(res => {
+
+          setTotal(res.data[0])
+          // setIsLoading(false)
+            console.log(Total);        
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }, [])
+  
+  return(
   <>
-    <Helmet>
-      <title>Dashboard</title>
-    </Helmet>
     <Box
       sx={{
         backgroundColor: 'background.default',
@@ -33,7 +49,7 @@ const Dashboard = () => (
             sm={6}
             xs={12}
           >
-            <TotalClass />
+            <TotalClass totalCl={Total.class_count}/>
           </Grid>
           <Grid
             item
@@ -41,7 +57,7 @@ const Dashboard = () => (
             sm={6}
             xs={12}
           >
-            <TotalStudent />
+            <TotalStudent totalST={Total.student_count}/>
           </Grid>
           <Grid
             item
@@ -49,7 +65,7 @@ const Dashboard = () => (
             sm={6}
             xs={12}
           >
-            <TotalTeacher />
+            <TotalTeacher totalTC={Total.teacher_count}/>
           </Grid>
           <Grid
             item
@@ -64,6 +80,7 @@ const Dashboard = () => (
       </Container>
     </Box>
   </>
-);
+  )
+  };
 
 export default Dashboard;

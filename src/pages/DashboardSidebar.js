@@ -17,11 +17,6 @@ import {
 } from 'react-feather';
 import NavItem from './NavItem';
 
-const user = {
-  avatar: '/static/images/avatars/lalisa.jpg',
-  jobTitle: 'Junior Developer',
-  name: 'Nhat Minh Bui'
-};
 
 const items = [
   {
@@ -46,7 +41,7 @@ const items = [
   }
 ];
 
-const DashboardSidebar = ({ onMobileClose, openMobile }) => {
+const DashboardSidebar = ({ onMobileClose, openMobile, user }) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -73,7 +68,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       >
         <Avatar
           component={RouterLink}
-          src={user.avatar}
+          src={user.avtUrl}
           sx={{
             cursor: 'pointer',
             width: 64,
@@ -91,7 +86,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           color="textSecondary"
           variant="body2"
         >
-          {user.jobTitle}
+          {user.role}
         </Typography>
       </Box>
       <Divider />
