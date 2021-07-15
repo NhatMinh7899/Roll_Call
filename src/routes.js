@@ -12,6 +12,7 @@ import NotFound from './pages/NotFound';
 import ClassControl from './pages/ClassControl';
 import AddClass from './pages/AddClass';
 import RollCall from './pages/RollCall';
+import CheckInReport from './pages/CheckInReport';
 
 const routes = [
   {
@@ -25,6 +26,7 @@ const routes = [
       { path: 'class', element: <ClassControl/>},
       { path: 'addclass', element: <AddClass />},
       { path: 'edititem/:id', element: <EditAccount />},
+      { path: 'checkin/:id', element: <CheckInReport />},
       { path: 'editclass/:classId', element: <RollCall />},
       //{ path: 'account', element: <EditClass />},
       { path: '*', element: <Navigate to="/errorPage" /> }
