@@ -27,7 +27,7 @@ const EditAccount = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    getJson(`/students/${id}`)
+    getJson(`/users/${id}`)
       .then((res) => {
         setUser(res.data[0]);
       })

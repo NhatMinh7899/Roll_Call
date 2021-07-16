@@ -28,7 +28,7 @@ const RollCallClass = () => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [teacher, setTeacher] = useState({});
   const [studentsInClass, setStudentsInClass] = useState([]);
-  const [students, setStudents] = useState([]);
+  const [nameCLass, setNameClass] = useState();
   const { classId } = useParams();
   const [values, setValues] = useState();
   console.log(classId);
@@ -36,11 +36,12 @@ const RollCallClass = () => {
   useEffect(() => {
     getJson(`/classes/${classId}`)
       .then((res) => {
-        console.log(res.data[0].students);
-        console.log(res.data[0]);
+        // console.log(res.data[0].students);
+        // console.log(res.data[0]);
         setTeacher(res.data[0].teacher);
         setStudentsInClass(res.data[0].students);
         setValues(res.data[0]);
+        setNameClass(res.data[0].name)
       })
       .catch((err) => {
         console.log(err);
@@ -85,7 +86,7 @@ const RollCallClass = () => {
 
     setSelectedCustomerIds(newSelectedCustomerIds);
   };
-  // console.log(values);
+ console.log(values);
   //   console.log(selectedCustomerIds);
 
   const handleDelete = () => {};
@@ -93,29 +94,34 @@ const RollCallClass = () => {
   //console.log(student);
   return (
     <>
-      <Grid container spacing={6} sx={{ mt: 4 }}>
-        {/* <Grid item lg={3}>
-          <TextField
-            name="className"
-            required
-            id="standard-required"
-            label="ClassName"
-            defaultValue="CLassName"
-            value={values.name ? values.name : ""}
-            disabled
-          />
+      <Grid container spacing={3} sx={{ mt: 4, ml: 3 }}>
+        <Grid item lg={4}>
+          <Typography>Tên lớp: {nameCLass}</Typography>
         </Grid>
         <Grid item lg={3}>
-          <TextField
-            name="teacherName"
-            required
-            id="standard-required"
-            label="TeacherName"
-            defaultValue="CLassName"
-            disabled
-            value={teacher.name ? teacher.name : ""}
-          />
-        </Grid> */}
+          <Typography>Giảng viên: {teacher.name}</Typography>
+        </Grid>
+        <Grid item lg={3} sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            component={Link}
+            color="primary"
+            variant="contained"
+            to={`/app/checkin/${classId}`}
+          >
+            Điểm Danh
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid container spacing={6} sx={{ mt: 1 }}>
+        {/* <Box
+        sx={{
+          // display: 'flex',
+          // justifyContent: 'flex-end'
+          mr: 8
+        }} */}
+
+        {/* </Box> */}
+
         <Grid item md={12}>
           <Card>
             <PerfectScrollbar>

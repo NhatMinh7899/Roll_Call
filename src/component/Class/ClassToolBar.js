@@ -26,6 +26,7 @@ import {
         >
           Add class
         </Button>
+        
       </Box>
       <Box sx={{ mt: 3 }}>
         <Card>
