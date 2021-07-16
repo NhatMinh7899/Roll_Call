@@ -47,7 +47,8 @@ const DashboardLayout = () => {
   //console.log(location.state.data);
   return (
     <DashboardLayoutRoot>
-      <DashboardNavbar onMobileNavOpen={() => setMobileNavOpen(true)} />
+      <DashboardNavbar onMobileNavOpen={() => setMobileNavOpen(true)}
+                      user = {user} />
       <DashboardSidebar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}

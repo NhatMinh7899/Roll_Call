@@ -3,7 +3,7 @@ import { Box, Container, Grid } from "@material-ui/core";
 import DetailAccount from "../component/AccountControl/DetailAccount";
 import ImageAccount from "../component/AccountControl/ImageAccount";
 import { useParams } from "react-router-dom";
-import { getJson } from "../utils/config";
+import { getJson, putJson } from "../utils/config";
 import {
   Button,
   Card,
@@ -45,7 +45,13 @@ const EditAccount = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(user);
+    putJson(`/users/${id}`, user)
+    .then(res => {
+      console.log("update ok");
+    }).catch(err => {
+      console.log(err);
+      console.log("update not ok");
+    })
   };
 
   return (

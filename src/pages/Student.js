@@ -9,8 +9,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 function StudentList() { 
-  
+  const [temp, setTemp] = useState(0)
   const [Users, setUsers] = useState([]);
+  
+  // useEffect(()=>{
+  //   setIterval(()=>{
+  //     setTemp((prevTemp)=>prevTemp+1)
+  //   }, 2000)
+  // }, [])
+
+
+  
   useEffect(() => {
     //console.log(authenable());
     getJson('/students')
@@ -24,7 +33,7 @@ function StudentList() {
       .catch(err => {
         console.log(err)
       })
-  }, [])
+  }, [temp])
   
   return(  
   <>
@@ -37,8 +46,7 @@ function StudentList() {
     >
       <Container maxWidth={false}>
         <StudentListToolbar />
-        <Box sx={{ pt: 3 }}>
-          
+        <Box sx={{ pt: 3 }}>         
           <StudentListResults student={Users} />
         </Box>
       </Container>

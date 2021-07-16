@@ -10,6 +10,8 @@ import {
   TextField
 } from '@material-ui/core';
 
+import { postJson } from '../../utils/config';
+
 const role = [
   {
     value: 'student',
@@ -22,9 +24,44 @@ const role = [
 ];
 
 const AddNewAccount = () => {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({
+    id: "",
+    name: "",
+    email: "",
+    password: "",
+    role: "",
+    avtUrl: "",
+    
+  });
+
+  const [errors, setErrors] = useState({
+    id: "",
+    name: "",
+    email: "",
+    password: ""
+  });
   //console.log(values);
   //console.log(account);
+
+  const validate = (fieldValues = values) => {
+    let temp = { ...errors }
+    if ('name' in fieldValues)
+        temp.name = fieldValues.name ? "" : "Cần nhập họ tên."
+    if ('id' in fieldValues)
+        temp.id = fieldValues.id ? "" : "Cần nhập id"
+    if ('email' in fieldValues)
+        temp.email = fieldValues.email ? "" : "Email không hợp lệ."
+    if ('password' in fieldValues)
+        temp.password = fieldValues.password ? "" : "Cần nhập password."
+   
+    setErrors({
+        ...temp
+    })
+
+    // if (fieldValues == values)
+    //     return Object.values(temp).every(x => x == "")
+}
+
   const handleChange = (event) => {
     setValues({
        ...values,
@@ -35,7 +72,16 @@ const AddNewAccount = () => {
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(values)
+     validate();
+      console.log(values)
+      postJson('/users', values)
+        .then(res => {
+            console.log("Thêm thành công");
+        }).catch((err) => {
+          console.log(err);
+          console.log("Thêm thất bại");
+        })
+      
   };
 
   return (
@@ -61,13 +107,15 @@ const AddNewAccount = () => {
             >
               <TextField
                 fullWidth
-                helperText="Họ và Tên"
-                //label="Họ Tên"
-                name="firstName"
+                //helperText="Họ và Tên"
+                label="Họ Tên"
+                name="name"
                 onChange={handleChange}
                 required
                 value={values.name}
                 variant="outlined"
+                error={errors.name}
+                helperText={errors.name}
               />
             </Grid>
             <Grid
@@ -77,12 +125,14 @@ const AddNewAccount = () => {
             >
               <TextField
                 fullWidth
-                helperText="Mã Sinh Viên"
+                label="Mã Sinh Viên"
                 name="id"
                 onChange={handleChange}
                 required
                 value={values.id}
                 variant="outlined"
+                error={errors.id}
+                helperText={errors.id}
               />
             </Grid>
             <Grid
@@ -92,12 +142,14 @@ const AddNewAccount = () => {
             >
               <TextField
                 fullWidth
-                helperText="Địa chỉ Email"
+                label="Địa chỉ Email"
                 name="email"
                 onChange={handleChange}
                 required
                 value={values.email}
                 variant="outlined"
+                error={errors.email}
+                helperText={errors.email}
               />
             </Grid>
             <Grid
@@ -107,7 +159,7 @@ const AddNewAccount = () => {
             >
               <TextField
                 fullWidth
-                helperText="Chức vị"
+                label="Chức vị"
                 name="role"
                 select
                 SelectProps={{ native: true }}
@@ -129,12 +181,15 @@ const AddNewAccount = () => {
             >
               <TextField
                 fullWidth
-                helperText="Mã QR"
-                name="qrUrl"
+                label="Mật Khẩu"
+                name="password"
+                type="password"
                 onChange={handleChange}
                 required
-                value={values.qrUrl}
+                value={values.password}
                 variant="outlined"
+                error={errors.password}
+                helperText={errors.password}
               />
             </Grid>
             <Grid
@@ -144,7 +199,7 @@ const AddNewAccount = () => {
             >
               <TextField
                 fullWidth
-                helperText="Mã Avatar"
+                label="Avatar"
                 name="avtUrl"
                 onChange={handleChange}
                 required

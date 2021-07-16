@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import PerfectScrollbar from "react-perfect-scrollbar";
 import {
+  Button,
   Avatar,
   Box,
   Card,
@@ -12,12 +13,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
-} from '@material-ui/core';
-import getInitials from '../../utils/getInitials';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import { Link as RouterLink } from 'react-router-dom';
+  Typography,
+} from "@material-ui/core";
+import getInitials from "../../utils/getInitials";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import { Link as RouterLink } from "react-router-dom";
+import { deleteJson } from "../../utils/config";
 
 const TeacherListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -41,11 +43,18 @@ const TeacherListResults = ({ customers, ...rest }) => {
     let newSelectedCustomerIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds,
+        id
+      );
     } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds.slice(1)
+      );
     } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds.slice(0, -1)
+      );
     } else if (selectedIndex > 0) {
       newSelectedCustomerIds = newSelectedCustomerIds.concat(
         selectedCustomerIds.slice(0, selectedIndex),
@@ -76,24 +85,16 @@ const TeacherListResults = ({ customers, ...rest }) => {
                     checked={selectedCustomerIds.length === customers.length}
                     color="primary"
                     indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < customers.length
+                      selectedCustomerIds.length > 0 &&
+                      selectedCustomerIds.length < customers.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>
-                  Id
-                </TableCell>
-                <TableCell>
-                  Name
-                </TableCell>
-                <TableCell>
-                  Email
-                </TableCell>
-                <TableCell>
-                  Role
-                </TableCell>
+                <TableCell>Id</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Role</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -113,37 +114,40 @@ const TeacherListResults = ({ customers, ...rest }) => {
                   <TableCell>
                     <Box
                       sx={{
-                        alignItems: 'center',
-                        display: 'flex'
+                        alignItems: "center",
+                        display: "flex",
                       }}
                     >
-                      <Avatar
-                        src={customer.avtUrl}
-                        sx={{ mr: 2 }}
-                      >
+                      <Avatar src={customer.avtUrl} sx={{ mr: 2 }}>
                         {getInitials(customer.name)}
                       </Avatar>
                     </Box>
                   </TableCell>
                   <TableCell>
-                  <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {customer.name}
-                      </Typography>
+                    <Typography color="textPrimary" variant="body1">
+                      {customer.name}
+                    </Typography>
                   </TableCell>
-                  <TableCell>
-                    {customer.email}
-                  </TableCell>
-                  <TableCell>
-                    {customer.role}
-                  </TableCell>
+                  <TableCell>{customer.email}</TableCell>
+                  <TableCell>{customer.role}</TableCell>
                   <TableCell>
                     <RouterLink to={`/app/edititem/${customer.id}`}>
-                    <EditIcon sx={{ mr: 2}}/>
-                    </RouterLink>                  
-                   <DeleteIcon />
+                      <EditIcon sx={{ mr: 2 }} />
+                    </RouterLink>
+                    <Button
+                      onClick={() => {
+                        deleteJson(`/users/${customer.id}`)
+                          .then((res) => {
+                            console.log("Xóa thành công");
+                            
+                          })
+                          .catch((err) => {
+                            console.log("Xóa thất bại");
+                          });
+                      }}
+                    >
+                      <DeleteIcon />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -165,7 +169,7 @@ const TeacherListResults = ({ customers, ...rest }) => {
 };
 
 TeacherListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+  customers: PropTypes.array.isRequired,
 };
 
 export default TeacherListResults;

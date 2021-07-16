@@ -25,6 +25,8 @@ import { useParams } from "react-router-dom";
 import { getJson } from "../utils/config";
 
 const RollCallClass = () => {
+
+
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [teacher, setTeacher] = useState({});
   const [studentsInClass, setStudentsInClass] = useState([]);
@@ -36,9 +38,7 @@ const RollCallClass = () => {
   useEffect(() => {
     getJson(`/classes/${classId}`)
       .then((res) => {
-        // console.log(res.data[0].students);
-        // console.log(res.data[0]);
-        setTeacher(res.data[0].teacher);
+        setTeacher(!(res.data[0].teacher == null) ? res.data[0].teacher : "");
         setStudentsInClass(res.data[0].students);
         setValues(res.data[0]);
         setNameClass(res.data[0].name)
@@ -48,60 +48,57 @@ const RollCallClass = () => {
       });
   }, []);
 
-  const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+  // const handleSelectAll = (event) => {
+  //   let newSelectedCustomerIds;
 
-    if (event.target.checked) {
-      newSelectedCustomerIds = studentsInClass.map((customer) => customer.id);
-    } else {
-      newSelectedCustomerIds = [];
-    }
+  //   if (event.target.checked) {
+  //     newSelectedCustomerIds = studentsInClass.map((customer) => customer.id);
+  //   } else {
+  //     newSelectedCustomerIds = [];
+  //   }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+  //   setSelectedCustomerIds(newSelectedCustomerIds);
+  // };
 
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+  // const handleSelectOne = (event, id) => {
+  //   const selectedIndex = selectedCustomerIds.indexOf(id);
+  //   let newSelectedCustomerIds = [];
 
-    if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds,
-        id
-      );
-    } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(1)
-      );
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, -1)
-      );
-    } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
-      );
-    }
+  //   if (selectedIndex === -1) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
+  //       selectedCustomerIds,
+  //       id
+  //     );
+  //   } else if (selectedIndex === 0) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
+  //       selectedCustomerIds.slice(1)
+  //     );
+  //   } else if (selectedIndex === selectedCustomerIds.length - 1) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
+  //       selectedCustomerIds.slice(0, -1)
+  //     );
+  //   } else if (selectedIndex > 0) {
+  //     newSelectedCustomerIds = newSelectedCustomerIds.concat(
+  //       selectedCustomerIds.slice(0, selectedIndex),
+  //       selectedCustomerIds.slice(selectedIndex + 1)
+  //     );
+  //   }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+  //   setSelectedCustomerIds(newSelectedCustomerIds);
+  // };
  console.log(values);
   //   console.log(selectedCustomerIds);
 
-  const handleDelete = () => {};
-
-  //console.log(student);
   return (
     <>
       <Grid container spacing={3} sx={{ mt: 4, ml: 3 }}>
-        <Grid item lg={4}>
+        <Grid item lg={2}>
           <Typography>Tên lớp: {nameCLass}</Typography>
         </Grid>
-        <Grid item lg={3}>
-          <Typography>Giảng viên: {teacher.name}</Typography>
+        <Grid item lg={4}>
+          <Typography>Giảng viên: {teacher.name} "</Typography>
         </Grid>
-        <Grid item lg={3} sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Grid item lg={2} sx={{ display: "flex", justifyContent: "flex-end"} }>
           <Button
             component={Link}
             color="primary"
@@ -111,6 +108,14 @@ const RollCallClass = () => {
             Điểm Danh
           </Button>
         </Grid>
+        <Grid item lg={2} sx={{ display: "flex", justifyContent: "flex-end"} }>
+          <Button
+            onClick = {}
+          >
+            Điểm Danh
+          </Button>
+        </Grid>
+        
       </Grid>
       <Grid container spacing={6} sx={{ mt: 1 }}>
         {/* <Box
@@ -139,7 +144,7 @@ const RollCallClass = () => {
                             selectedCustomerIds.length > 0 &&
                             selectedCustomerIds.length < studentsInClass.length
                           }
-                          onChange={handleSelectAll}
+                          // onChange={handleSelectAll}
                         />
                       </TableCell>
                       <TableCell>Id</TableCell>
@@ -162,9 +167,9 @@ const RollCallClass = () => {
                             checked={
                               selectedCustomerIds.indexOf(customer.id) !== -1
                             }
-                            onChange={(event) =>
-                              handleSelectOne(event, customer.id)
-                            }
+                            // onChange={(event) =>
+                            //   handleSelectOne(event, customer.id)
+                            // }
                             value="true"
                           />
                         </TableCell>
@@ -191,7 +196,7 @@ const RollCallClass = () => {
                           <Link to={`/app/edititem/${customer.id}`}>
                             <EditIcon sx={{ mr: 2 }} />
                           </Link>
-                          <Button onClick={handleDelete}>
+                          <Button>
                             <DeleteIcon sx={{ mb: 2 }} />
                           </Button>
                         </TableCell>

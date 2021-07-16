@@ -14,6 +14,7 @@ import {Host} from '../utils/config';
 import axios from 'axios';
 import { setUserSession } from '../utils/common';
 import { useNavigate } from "react-router-dom";
+import RaiseError from '../utils/RaiseError';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,8 +52,10 @@ function Login(props) {
   const password = useFormInput('');
   // const [username, setUsername] = useState('');
   // const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [errors, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [errorReq, setErrorReq] = useState(false);
   const navigate = useNavigate();
  
   // handle button click of login form
@@ -76,10 +79,13 @@ function Login(props) {
       
     }).catch((error) => {
       setLoading(false);
-      if (error.response.status === 404) setError(error.response.data.message);
-      else setError("Something went wrong. Please try again later.");
-      navigate('/login')
-      //console.log(error);
+      setError(error.response.data.message);
+      setOpen(true);
+
+      // else setError("Something went wrong. Please try again later.");
+      // navigate('/login')
+      console.log(errors);
+      console.log(open);
     });
     //props.history.push('/dashboard');
     
@@ -107,7 +113,7 @@ function Login(props) {
             id="user"
             label="UserName"
             name="user"
-            autoComplete="email"
+            //autoComplete="email"
             autoFocus
             {...username}
           />
@@ -120,7 +126,7 @@ function Login(props) {
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
+            //autoComplete="current-password"
             {...password}
           />
          
@@ -138,6 +144,7 @@ function Login(props) {
                
         </form>
       </div>
+      <RaiseError messages={errors}  open={open} />
     </Grid>
   </Grid>
 

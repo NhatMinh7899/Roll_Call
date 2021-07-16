@@ -19,7 +19,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import ListStudent from "../component/Class/ListStudent";
 import Student from "../data/studentdb";
 import { useState, useEffect } from "react";
-import { getJson} from '../utils/config'
+import { getJson, postJson} from '../utils/config'
 import {Link } from 'react-router-dom'
 //add mutiple item
 // const handleChangeMultiple = (event) => {
@@ -50,20 +50,53 @@ const states = [
 
 const AddClass = () => {
   const [values, setValues] = useState({
+  id: "",
+  name: "",
+  teacher: {
+    id: ""
+  },
+  room: "",
+  students: [
+    {
+      id: ""
+    }
+  ],
+  monitors: [],
+  credit: 0,
+  dayOfWeek: "2",
+  shift: "0",
+  days: 0,
+  dateStart: "Now"
+  });
+
+  const [errors, setErrors] = useState({
     id: "",
     name: "",
-    room: "",
-    credit: "",
-    datestart: "",
-    student: [],
-    teacher: {},
-    dayOfWeek: "2",
-    shift: "0",
-    days: 0,
-    dateStart: "",
+    credit: ""
   });
+
+  const validate = (fieldValues = values) => {
+    let temp = { ...errors }
+    if ('name' in fieldValues)
+        temp.name = fieldValues.name ? "" : "Cần nhập họ tên."
+    if ('credit' in fieldValues)
+        temp.credit = fieldValues.credit < 0 ? "" : "Tín chỉ không được nhỏ hơn 0"
+    if ('id' in fieldValues)
+        temp.id = fieldValues.id  ? "" : "Nhập mã lớp"
+    setErrors({
+        ...temp
+    })
+
+    // if (fieldValues == values)
+    //     return Object.values(temp).every(x => x == "")
+}
+
+  const [teacherGet, setTeacherGet] = useState({});
+  //console.log(values);
+  //console.log(account);
+
   const [teachers, setTeachers] = useState([]);
-  const [students, setStudents] = useState([]);
+  const [getStudents, setStudents] = useState([]);
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
   useEffect(() => {
@@ -93,7 +126,19 @@ const AddClass = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    //console.log(values);
+    let tmp = values;
+    tmp.students = selectedCustomerIds.map(student => ({id: student}));
+    console.log(teacherGet);
+    tmp.teacher = {id: teacherGet};
+    setValues(tmp);
     console.log(values);
+    postJson('/classes', values)
+    .then(res=>{
+      console.log('ok')
+    }).catch(err=>{
+      console.log("not ok")
+    })
   };
 
   const handleSelectOne = (event, id) => {
@@ -134,20 +179,35 @@ const AddClass = () => {
         >
           <Container maxWidth={false}>
             <Grid container spacing={6}>
+            <Grid item lg={3}>
+                <TextField
+                  name="id"
+                  required
+                  id="id"
+                  label="Mã Lớp"
+                  value={values.id}
+                  onChange={handleChange}
+                  error={errors.id}
+                  helperText={errors.id}
+                />
+              </Grid>
               <Grid item lg={3}>
                 <TextField
                   name="name"
                   required
-                  id="standard-required"
-                  label="Required"
-                  defaultValue="name"
+                  id="name"
+                  label="Tên Lớp"
+                  value={values.name}
+                  onChange={handleChange}
+                  error={errors.name}
+                  helperText={errors.name}
                 />
               </Grid>
 
               <Grid item lg={3}>
                 <TextField
                   fullWidth
-                  label="Select Room"
+                  label="Chọn phòng"
                   name="room"
                   onChange={handleChange}
                   required
@@ -168,19 +228,25 @@ const AddClass = () => {
                 <TextField
                   name="credit"
                   required
-                  id="standard-required"
-                  label="Required"
+                  id="credit"
+                  label="Tín Chỉ"
                   type='number'
-                  defaultValue="Credits"
+                  value={values.credit}
+                  onChange={handleChange} 
+                  error={errors.credit}
+                  helperText={errors.credit}
                 />
               </Grid>
+              
 
               <Grid item lg={3}>
                 <TextField
-                  id="date"
-                  label="Birthday"
+                  id="dateStart"
+                  name="dateStart"
+                  label="Ngày kết thúc"
                   type="date"
-                  defaultValue="Now"
+                  value={values.dateStart}
+                  onChange={handleChange}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -194,14 +260,15 @@ const AddClass = () => {
                 <TextField
                   fullWidth
                   name="teacher"
-                  onChange={handleChange}
+                  onChange={(event) => {setTeacherGet(event.target.value)}}
                   required
                   select
                   SelectProps={{ native: true }}
                   variant="outlined"
+                  //value= {values.teacher}
                 >
                   {teachers.map((name) => (
-                    <option key={name} value={name}>
+                    <option key={name} value={name.id}>
                       {name.name}
                     </option>
                   ))}
@@ -217,12 +284,12 @@ const AddClass = () => {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={
-                                selectedCustomerIds.length === students.length
+                                selectedCustomerIds.length === getStudents.length
                               }
                               color="primary"
                               indeterminate={
                                 selectedCustomerIds.length > 0 &&
-                                selectedCustomerIds.length < students.length
+                                selectedCustomerIds.length < getStudents.length
                               }
                   
                             />
@@ -234,7 +301,7 @@ const AddClass = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {students.map((student) => (
+                        {getStudents.map((student) => (
                           <TableRow
                             hover
                             key={student.id}

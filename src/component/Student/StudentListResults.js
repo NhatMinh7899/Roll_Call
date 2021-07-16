@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   Avatar,
   Box,
@@ -13,17 +13,26 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
-} from '@material-ui/core';
-import getInitials from '../../utils/getInitials';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import { Link} from 'react-router-dom';
+  Typography,
+} from "@material-ui/core";
+import getInitials from "../../utils/getInitials";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import { Link } from "react-router-dom";
+import { deleteJson, getJson } from "../../utils/config";
 
 const ListStudent = ({ student, ...rest }) => {
+  const [students, setStudents] = useState([]);
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    getJson('/students')
+    .then(res => {
+        setStudents(res.data);
+    })
+  }, [])
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -42,11 +51,18 @@ const ListStudent = ({ student, ...rest }) => {
     let newSelectedCustomerIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds,
+        id
+      );
     } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds.slice(1)
+      );
     } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds.slice(0, -1)
+      );
     } else if (selectedIndex > 0) {
       newSelectedCustomerIds = newSelectedCustomerIds.concat(
         selectedCustomerIds.slice(0, selectedIndex),
@@ -65,13 +81,10 @@ const ListStudent = ({ student, ...rest }) => {
     setPage(newPage);
   };
 
-  const handleDelete = () => {
-    
-  }
+  const handleDelete = () => {};
 
   //console.log(student);
   return (
-    
     <Card {...rest}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
@@ -83,28 +96,20 @@ const ListStudent = ({ student, ...rest }) => {
                     checked={selectedCustomerIds.length === student.length}
                     color="primary"
                     indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < student.length
+                      selectedCustomerIds.length > 0 &&
+                      selectedCustomerIds.length < student.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>
-                  Id
-                </TableCell>
-                <TableCell>
-                  Name
-                </TableCell>
-                <TableCell>
-                  Email
-                </TableCell>
-                <TableCell>
-                  Role
-                </TableCell>
+                <TableCell>Id</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Role</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {student.slice(0, limit).map((customer) => (
+              {students.map((customer) => (
                 <TableRow
                   hover
                   key={customer.id}
@@ -120,40 +125,43 @@ const ListStudent = ({ student, ...rest }) => {
                   <TableCell>
                     <Box
                       sx={{
-                        alignItems: 'center',
-                        display: 'flex'
+                        alignItems: "center",
+                        display: "flex",
                       }}
                     >
-                      <Avatar
-                        src={customer.avtUrl}
-                        sx={{ mr: 2 }}
-                      >
+                      <Avatar src={customer.avtUrl} sx={{ mr: 2 }}>
                         {getInitials(customer.name)}
                       </Avatar>
                     </Box>
                   </TableCell>
                   <TableCell>
-                  <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {customer.name}
-                      </Typography>
+                    <Typography color="textPrimary" variant="body1">
+                      {customer.name}
+                    </Typography>
                   </TableCell>
+                  <TableCell>{customer.email}</TableCell>
+                  <TableCell>{customer.role}</TableCell>
                   <TableCell>
-                    {customer.email}
-                  </TableCell>
-                  <TableCell>
-                    {customer.role}
-                  </TableCell>
-                  <TableCell>
-                  <Link to={`/app/edititem/${customer.id}`}>
-                    <EditIcon sx={{ mr: 2}}/>
+                    <Link to={`/app/edititem/${customer.id}`}>
+                      <EditIcon sx={{ mr: 2 }} />
                     </Link>
-                    <Button onClick={handleDelete}>
-                        <DeleteIcon />
-                    </Button>                  
-                   
+                    <Button
+                      onClick={() => {
+                        deleteJson(`/users/${customer.id}`)
+                          .then((res) => {
+                            console.log("Xóa thành công");
+                            getJson('/students')
+                            .then(res => {
+                                setStudents(res.data);
+                            })
+                          })
+                          .catch((err) => {
+                            console.log("Xóa thất bại");
+                          });
+                      }}
+                    >
+                      <DeleteIcon />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -175,7 +183,7 @@ const ListStudent = ({ student, ...rest }) => {
 };
 
 ListStudent.propTypes = {
-  student: PropTypes.array.isRequired
+  student: PropTypes.array.isRequired,
 };
 
 export default ListStudent;
