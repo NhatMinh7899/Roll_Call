@@ -42,6 +42,7 @@ const routes = [
     children: [
       { path: 'liststudent/:id', element: <Student_T /> },
       { path: 'listteacher/:id', element: <Teacher_T /> },
+      { path: 'editclass/:classId', element: <RollCall />},
       { path: 'listclass/:id', element: <Class /> }
     ]
   },

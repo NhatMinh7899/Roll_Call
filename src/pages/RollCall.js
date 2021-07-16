@@ -16,6 +16,8 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  CardHeader,
+  CardContent,
 } from "@material-ui/core";
 import getInitials from "../utils/getInitials";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -31,6 +33,7 @@ const RollCallClass = () => {
   const [teacher, setTeacher] = useState({});
   const [studentsInClass, setStudentsInClass] = useState([]);
   const [nameCLass, setNameClass] = useState();
+  const [count, setCount] = useState();
   const { classId } = useParams();
   const [values, setValues] = useState();
   console.log(classId);
@@ -42,6 +45,7 @@ const RollCallClass = () => {
         setStudentsInClass(res.data[0].students);
         setValues(res.data[0]);
         setNameClass(res.data[0].name)
+        setCount(res.data[0].student_count)
       })
       .catch((err) => {
         console.log(err);
@@ -92,13 +96,47 @@ const RollCallClass = () => {
   return (
     <>
       <Grid container spacing={3} sx={{ mt: 4, ml: 3 }}>
-        <Grid item lg={2}>
+
+        <Grid item lg={6}>
+          <Card>
+            <CardHeader title="Thông tin lớp"></CardHeader>
+            <CardContent>
+              <Grid container spacing = {1}>
+                <Grid item md={12}>
+                  <Typography
+                  color="textPrimary"
+                  gutterBottom
+                  variant="h4">
+                      Tên lớp: {nameCLass}
+                  </Typography>
+                </Grid>
+                <Grid item md={12}>
+                  <Typography
+                  color="textPrimary"
+                  gutterBottom
+                  variant="h4">
+                      Giảng viên: {teacher.name}
+                  </Typography>
+                </Grid>
+                <Grid item md={12}>
+                  <Typography
+                  color="textPrimary"
+                  gutterBottom
+                  variant="h4">
+                      Số lượng SV: {count}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+        {/* <Grid item lg={2}>
           <Typography>Tên lớp: {nameCLass}</Typography>
         </Grid>
         <Grid item lg={4}>
           <Typography>Giảng viên: {teacher.name} "</Typography>
-        </Grid>
-        <Grid item lg={2} sx={{ display: "flex", justifyContent: "flex-end"} }>
+        </Grid> */}
+        {/* <Grid item lg={2} sx={{ display: "flex", justifyContent: "flex-end"} }>
           <Button
             component={Link}
             color="primary"
@@ -107,10 +145,10 @@ const RollCallClass = () => {
           >
             Điểm Danh
           </Button>
-        </Grid>
+        </Grid> */}
         <Grid item lg={2} sx={{ display: "flex", justifyContent: "flex-end"} }>
           <Button
-            onClick = {}
+          
           >
             Điểm Danh
           </Button>

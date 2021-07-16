@@ -52,10 +52,8 @@ const Class = () => {
               }}
             >
               <Button
-                component={RouterLink}
                 color="primary"
                 variant="contained"
-                to="/app/addclass"
               >
                Roll-Call
               </Button>
@@ -88,7 +86,7 @@ const Class = () => {
             <Grid container spacing={3}>
               {classes.map((Class) => (
                 <Grid item key={Class.id} lg={4} md={6} xs={12}>
-                  <Link to={`/app/editclass/${Class.id}`}>
+                  <Link to={`/teacher/editclass/${Class.id}`}>
                     <ClassCard Class={Class} />
                   </Link>
                 </Grid>
