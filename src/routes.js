@@ -12,6 +12,10 @@ import NotFound from './pages/NotFound';
 import ClassControl from './pages/ClassControl';
 import AddClass from './pages/AddClass';
 import RollCall from './pages/RollCall';
+import DBLayout from './pages/roleTeacher/DBLayout';
+import Class from './pages/roleTeacher/Class';
+import Student_T from './pages/roleTeacher/Student_T';
+import Teacher_T from './pages/roleTeacher/Teacher_T';
 
 const routes = [
   {
@@ -28,6 +32,15 @@ const routes = [
       { path: 'editclass/:classId', element: <RollCall />},
       //{ path: 'account', element: <EditClass />},
       { path: '*', element: <Navigate to="/errorPage" /> }
+    ]
+  },
+  {
+    path: '/teacher',
+    element: <DBLayout />,
+    children: [
+      { path: 'liststudent/:id', element: <Student_T /> },
+      { path: 'listteacher/:id', element: <Teacher_T /> },
+      { path: 'listclass/:id', element: <Class /> }
     ]
   },
   {

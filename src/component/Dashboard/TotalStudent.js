@@ -30,7 +30,7 @@ const TotalStudent = (props) => (
             color="textPrimary"
             variant="h3"
           >
-            {props.totalST}
+            {props.totalst}
           </Typography>
         </Grid>
         <Grid item>

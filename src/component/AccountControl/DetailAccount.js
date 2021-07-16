@@ -107,21 +107,6 @@ const AccountProfileDetails = (props) => {
                 variant="outlined"
               />
             </Grid>
-            {/* <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                helperText="Hình ảnh"
-                name="avtUrl"
-                onChange={handleChange}
-                type="number"
-                value={values.avtUrl}
-                variant="outlined"
-              />
-            </Grid> */}
           </Grid>
         </CardContent>
         <Divider />

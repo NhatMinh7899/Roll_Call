@@ -65,8 +65,15 @@ function Login(props) {
       // console.log(response.data.data[0].token);
       setLoading(false);
       let data = response.data.data[0];
-      setUserSession(response.data.data[0].token, response.data.data[0] );
-      navigate('/app/dashboard', {state: {data}});
+      if(data.role == 'admin'){
+        setUserSession(response.data.data[0].token, response.data.data[0] );
+        navigate('/app/dashboard', {state: {data}});
+      }
+      else if(data.role == 'teacher') {
+        setUserSession(response.data.data[0].token, response.data.data[0] );
+          navigate(`/teacher/listclass/${data.id}`, {state: {data}});
+      }
+      
     }).catch((error) => {
       setLoading(false);
       if (error.response.status === 404) setError(error.response.data.message);

@@ -49,7 +49,7 @@ function Dashboard() {
             sm={6}
             xs={12}
           >
-            <TotalClass totalCl={Total.class_count}/>
+            <TotalClass totalcl={Total.class_count}/>
           </Grid>
           <Grid
             item
@@ -57,7 +57,7 @@ function Dashboard() {
             sm={6}
             xs={12}
           >
-            <TotalStudent totalST={Total.student_count}/>
+            <TotalStudent totalst={Total.student_count}/>
           </Grid>
           <Grid
             item
@@ -65,7 +65,7 @@ function Dashboard() {
             sm={6}
             xs={12}
           >
-            <TotalTeacher totalTC={Total.teacher_count}/>
+            <TotalTeacher totaltc={Total.teacher_count}/>
           </Grid>
           <Grid
             item
