@@ -16,6 +16,7 @@ import DBLayout from './pages/roleTeacher/DBLayout';
 import Class from './pages/roleTeacher/Class';
 import Student_T from './pages/roleTeacher/Student_T';
 import Teacher_T from './pages/roleTeacher/Teacher_T';
+import CheckInReport from './pages/CheckInReport';
 
 const routes = [
   {
@@ -29,6 +30,7 @@ const routes = [
       { path: 'class', element: <ClassControl/>},
       { path: 'addclass', element: <AddClass />},
       { path: 'edititem/:id', element: <EditAccount />},
+      { path: 'checkin/:id', element: <CheckInReport />},
       { path: 'editclass/:classId', element: <RollCall />},
       //{ path: 'account', element: <EditClass />},
       { path: '*', element: <Navigate to="/errorPage" /> }

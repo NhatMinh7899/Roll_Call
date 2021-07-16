@@ -11,7 +11,7 @@ import {Link} from 'react-router-dom';
 
 import { Search as SearchIcon } from 'react-feather';
 
-const CustomerListToolbar = (props) => (
+const ClassInfo = (props) => (
   <Box {...props}>
     <Box
       sx={{
@@ -56,4 +56,4 @@ const CustomerListToolbar = (props) => (
   </Box>
 );
 
-export default CustomerListToolbar;
+export default ClassInfo;

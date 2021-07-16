@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
   Box,
-  Button,
   Card,
   Checkbox,
   Table,
@@ -15,12 +15,9 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
-import getInitials from '../../utils/getInitials';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import { Link} from 'react-router-dom';
+import getInitials from 'src/utils/getInitials';
 
-const ListStudent = ({ student, ...rest }) => {
+const ListStudent = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -29,7 +26,7 @@ const ListStudent = ({ student, ...rest }) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = student.map((customer) => customer.id);
+      newSelectedCustomerIds = customers.map((customer) => customer.id);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -65,13 +62,7 @@ const ListStudent = ({ student, ...rest }) => {
     setPage(newPage);
   };
 
-  const handleDelete = () => {
-    
-  }
-
-  //console.log(student);
   return (
-    
     <Card {...rest}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
@@ -80,17 +71,14 @@ const ListStudent = ({ student, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedCustomerIds.length === student.length}
+                    checked={selectedCustomerIds.length === customers.length}
                     color="primary"
                     indeterminate={
                       selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < student.length
+                      && selectedCustomerIds.length < customers.length
                     }
                     onChange={handleSelectAll}
                   />
-                </TableCell>
-                <TableCell>
-                  Id
                 </TableCell>
                 <TableCell>
                   Name
@@ -99,12 +87,18 @@ const ListStudent = ({ student, ...rest }) => {
                   Email
                 </TableCell>
                 <TableCell>
-                  Role
+                  Location
+                </TableCell>
+                <TableCell>
+                  Phone
+                </TableCell>
+                <TableCell>
+                  Registration date
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {student.slice(0, limit).map((customer) => (
+              {customers.slice(0, limit).map((customer) => (
                 <TableRow
                   hover
                   key={customer.id}
@@ -125,35 +119,30 @@ const ListStudent = ({ student, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={customer.avtUrl}
+                        src={customer.avatarUrl}
                         sx={{ mr: 2 }}
                       >
                         {getInitials(customer.name)}
                       </Avatar>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                  <Typography
+                      <Typography
                         color="textPrimary"
                         variant="body1"
                       >
                         {customer.name}
                       </Typography>
+                    </Box>
                   </TableCell>
                   <TableCell>
                     {customer.email}
                   </TableCell>
                   <TableCell>
-                    {customer.role}
+                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
                   </TableCell>
                   <TableCell>
-                  <Link to={`/app/edititem/${customer.id}`}>
-                    <EditIcon sx={{ mr: 2}}/>
-                    </Link>
-                    <Button onClick={handleDelete}>
-                        <DeleteIcon />
-                    </Button>                  
-                   
+                    {customer.phone}
+                  </TableCell>
+                  <TableCell>
+                    {moment(customer.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
                 </TableRow>
               ))}
@@ -163,7 +152,7 @@ const ListStudent = ({ student, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={student.length}
+        count={customers.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -175,7 +164,7 @@ const ListStudent = ({ student, ...rest }) => {
 };
 
 ListStudent.propTypes = {
-  student: PropTypes.array.isRequired
+  customers: PropTypes.array.isRequired
 };
 
 export default ListStudent;
